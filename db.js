@@ -13,10 +13,10 @@ if (env === 'production') {
 }
 var db = {};
 
-//db.actions = sql.import(__dirname + '/models/actions.js');
-//db.claims = sql.import(__dirname + '/models/claims.js');
-db.rewards = sql.import(__dirname + '/models/rewards.js');
-db.tasks = sql.import(__dirname + '/models/tasks.js');
+//db.action = sql.import(__dirname + '/models/actions.js');
+//db.claim = sql.import(__dirname + '/models/claims.js');
+db.reward = sql.import(__dirname + '/models/rewards.js');
+db.task = sql.import(__dirname + '/models/tasks.js');
 db.token = sql.import(__dirname + '/models/token.js');
 db.user = sql.import(__dirname + '/models/user.js');
 
