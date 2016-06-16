@@ -76,7 +76,7 @@ app.delete('/users/login', middleware.requireAuthentication, function (req, res)
 /*
     TASKS
  */
-app.post('/todos', middleware.requireAuthentication, function (req, res) {
+app.post('/tasks', middleware.requireAuthentication, function (req, res) {
     var body = _.pick(req.body, 'name', 'points', 'description', 'active');
 
     db.task
@@ -93,7 +93,7 @@ app.post('/todos', middleware.requireAuthentication, function (req, res) {
  */
 
 db.sql
-    .sync({force: true})
+    .sync({})
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);
