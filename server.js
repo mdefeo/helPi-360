@@ -79,7 +79,7 @@ app.delete('/users/login', middleware.requireAuthentication, function (req, res)
 app.post('/tasks', middleware.requireAuthentication, function (req, res) {
     var body = _.pick(req.body, 'name', 'points', 'description', 'active');
 
-    db.task
+    db.tasks
         .create(body)
         .then(function (task) {
             res.status(200).json(task.toJSON());
