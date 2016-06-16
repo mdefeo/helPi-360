@@ -15,6 +15,10 @@ module.exports 	=	function(sequelize, DataTypes) {
 				this.setDataValue('tokenHash',hash);
 			}
 		},
-		tokenHash: DataTypes.STRING 
+		tokenHash: DataTypes.STRING,
+        expiration: {
+            type: DataTypes.DATE,
+            allowNull: false
+        }
 	});
 };
