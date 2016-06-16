@@ -17,7 +17,7 @@ app.get('/', function (req, res) {
     USERS
  */
 app.post('/users', function (req, res) {
-    var body = _.pick(req.body, 'email', 'password');
+    var body = _.pick(req.body, 'email', 'password', 'type');
 
     db.user
         .create(body)
@@ -79,10 +79,46 @@ app.delete('/users/login', middleware.requireAuthentication, function (req, res)
 app.post('/tasks', middleware.requireAuthentication, function (req, res) {
     var body = _.pick(req.body, 'name', 'points', 'description', 'active');
 
+    if(req.user.get('type') !== 10) {
+        db.tasks
+            .create(body)
+            .then(function (task) {
+                res.status(200).json(task.toJSON());
+            })
+            .catch(function (e) {
+                res.status(500).json(e);
+            });
+    } else {
+        res.status(401).send();
+    }
+});
+
+app.get('/tasks', middleware.requireAuthentication, function (req, res) {
+    var query = req.query,
+        where = {};
+
+    if (query.hasOwnProperty('active') && query.completed === 'true') {
+        where.active = true;
+    } else if (query.hasOwnProperty('active') && query.completed === 'false') {
+        where.active = false;
+    }
+
+    if (query.hasOwnProperty('q') && query.q.length > 0) {
+        where.$or = [
+            {
+                description: {$like: '%' + query.q + '%'}
+            },
+            {
+                name: {$like: '%' + query.q + '%'}
+            }
+
+        ];
+    }
+
     db.tasks
-        .create(body)
-        .then(function (task) {
-            res.status(200).json(task.toJSON());
+        .findAll({where: where})
+        .then(function (todos) {
+            res.status(200).json(todos);
         })
         .catch(function (e) {
             res.status(500).json(e);

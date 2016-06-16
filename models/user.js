@@ -33,6 +33,11 @@ module.exports = function (sql, DataTypes) {
                 this.setDataValue('salt', salt);
                 this.setDataValue('password_hash', hashed_password);
             }
+        },
+        type: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 10
         }
     }, {
         hooks: {
@@ -45,7 +50,7 @@ module.exports = function (sql, DataTypes) {
         instanceMethods: {
             toPublicJSON: function () {
                 var json = this.toJSON();
-                return _.pick(json, 'id', 'email', 'updatedAt', 'createdAt');
+                return _.pick(json, 'id', 'email', 'updatedAt', 'createdAt', 'type');
             },
             generateToken: function (type) {
                 if (!_.isString(type)) {
