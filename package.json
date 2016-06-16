@@ -1,0 +1,22 @@
+{
+  "name": "helpi-360",
+  "version": "1.0.0",
+  "description": "Task and reward system",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdefeo/helPi-360.git"
+  },
+  "author": "Marcello De Feo, Jason Miraglia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdefeo/helPi-360/issues"
+  },
+  "homepage": "https://github.com/mdefeo/helPi-360#readme"
+}
