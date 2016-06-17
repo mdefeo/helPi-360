@@ -11,14 +11,7 @@ module.exports 	=	function(sqlize,DataTypes) {
 		statusId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			defaultValue: 0
-		}
-	}, {
-		hooks: {
-		},
-		classMethods: {
-		},
-		instanceMethods: {
+			defaultValue: 1
 		}
 	});
 	return claim;

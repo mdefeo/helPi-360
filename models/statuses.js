@@ -1,16 +1,17 @@
+// 1	In progress
+// 2	Completed
+// 3	Approved
+// 4	Denied
+
 module.exports 	=	function(sqlize,DataTypes) {
 	var status 	=	sqlize.define('status', {
-		status: {
+		name: {
 			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: "In progress"
-		}
-	}, {
-		hooks: {
+			allowNull: false
 		},
-		classMethods: {
-		},
-		instanceMethods: {
+		description: {
+			type: DataTypes.STRING,
+			allowNull: true
 		}
 	});
 	return status;

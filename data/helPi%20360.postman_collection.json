@@ -1,0 +1,793 @@
+{
+	"variables": [],
+	"info": {
+		"name": "helPi 360",
+		"_postman_id": "68eca80e-26e1-68ea-1b3e-c5812aec2fbe",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Assigned",
+			"description": "",
+			"item": [
+				{
+					"name": "GET /assigned",
+					"request": {
+						"url": "{{apiURL}}/assigned",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET /assigned/:id",
+					"request": {
+						"url": "{{apiURL}}/assigned/6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST /assigned",
+					"request": {
+						"url": "{{apiURL}}/assigned",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Even More Stuff\",\n    \"completed\": false,\n    \"dueDate\": \"2016-06-15\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /assigned/:id",
+					"request": {
+						"url": "{{apiURL}}/assigned/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /assigned/:id",
+					"request": {
+						"url": "{{apiURL}}/assigned/4",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "[{authToken}]",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Blah\",\n    \"completed\": false,\n    \"steve\": \"no\",\n    \"poop\": \"a lot\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Claimed",
+			"description": "",
+			"item": [
+				{
+					"name": "GET /claimed",
+					"request": {
+						"url": "{{apiURL}}/claimed",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET /claimed/:id",
+					"request": {
+						"url": "{{apiURL}}/claimed/6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST /claimed",
+					"request": {
+						"url": "{{apiURL}}/claimed",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Even More Stuff\",\n    \"completed\": false,\n    \"dueDate\": \"2016-06-15\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /claimed/:id",
+					"request": {
+						"url": "{{apiURL}}/claimed/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /claimed/:id",
+					"request": {
+						"url": "{{apiURL}}/claimed/4",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "[{authToken}]",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Blah\",\n    \"completed\": false,\n    \"steve\": \"no\",\n    \"poop\": \"a lot\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"description": "",
+			"item": [
+				{
+					"name": "GET /notifications",
+					"request": {
+						"url": "{{apiURL}}/notifications",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET /notifications/:id",
+					"request": {
+						"url": "{{apiURL}}/notifications/6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rewards",
+			"description": "",
+			"item": [
+				{
+					"name": "GET /rewards",
+					"request": {
+						"url": "{{apiURL}}/rewards",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET /rewards/:id",
+					"request": {
+						"url": "{{apiURL}}/rewards/6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST /rewards",
+					"request": {
+						"url": "{{apiURL}}/rewards",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\t\"name\": \"Watch TV\", \n\t\"points\":50\n},\n{\n\t\"name\": \"Pick songs/books bedtime routine\", \n\t\"points\":75\n},\n{\n\t\"name\": \"Get to play outside (yard, driveway)\", \n\t\"points\":100\n},\n{\n\t\"name\": \"Pick board games\", \n\t\"points\":125\n},\n{\n\t\"name\": \"iPad day\", \n\t\"points\":150\n},\n{\n\t\"name\": \"Play video games\", \n\t\"points\":175\n},\n{\n\t\"name\": \"Sit in the arm chair for the night\", \n\t\"points\":200\n},\n{\n\t\"name\": \"Get picked up from aftercare later\", \n\t\"points\":225\n},\n{\n\t\"name\": \"Ride bike\", \n\t\"points\":250\n},\n{\n\t\"name\": \"Ride scooter\", \n\t\"points\":250\n},\n{\n\t\"name\": \"Stay up 30 minutes late\", \n\t\"points\":275\n},\n{\n\t\"name\": \"Wake up late\", \n\t\"points\":300\n},\n{\n\t\"name\": \"Pick out dinner\", \n\t\"points\":300\n},\n{\n\t\"name\": \"Play on the playground\", \n\t\"points\":325\n},\n{\n\t\"name\": \"Don't have to take care of dog\", \n\t\"points\":350\n},\n{\n\t\"name\": \"Watch a movie\", \n\t\"points\":375\n},\n{\n\t\"name\": \"Go roller skating\", \n\t\"points\":400\n},\n{\n\t\"name\": \"Get picked up early\", \n\t\"points\":425\n},\n{\n\t\"name\": \"Go ice skating\", \n\t\"points\":425\n},\n{\n\t\"name\": \"Go out to dinner (and get to pick the place) \", \n\t\"points\":450\n},\n{\n\t\"name\": \"Play with the trains\", \n\t\"points\":450\n},\n{\n\t\"name\": \"Pick a dessert\", \n\t\"points\":475\n},\n{\n\t\"name\": \"Get water ice\", \n\t\"points\":500\n},\n{\n\t\"name\": \"Get Mr Softee\", \n\t\"points\":525\n},\n{\n\t\"name\": \"Get ice cream\", \n\t\"points\":525\n},\n{\n\t\"name\": \"Milkshakes\", \n\t\"points\":600\n},\n{\n\t\"name\": \"Going to the arcade\", \n\t\"points\":750\n},\n{\n\t\"name\": \"Go to the shore\", \n\t\"points\":900\n},\n{\n\t\"name\": \"Trade points for $10\", \n\t\"points\":1000\n},\n{\n\t\"name\": \"Trade points for $25\", \n\t\"points\":2250\n},\n{\n\t\"name\": \"Trade points for $50\", \n\t\"points\":4000\n},\n{\n\t\"name\": \"Kicking the dog\",\n\t\"points\": -5\n}, \n{\n\t\"name\": \"Hitting your sibling\",\n\t\"points\": -5\n}, \n{\n\t\"name\": \"Using a bad word\",\n\t\"points\": -5\n}, \n{\n\t\"name\": \"Not listening the first time\",\n\t\"points\": -5\n}, \n{\n\t\"name\": \"Not getting out of bed on time\",\n\t\"points\": -5\n}, \n{\n\t\"name\": \"Complaining when you are told to do something\",\n\t\"points\": -5\n}, \n{\n\t\"name\": \"Telling on your sibling\",\n\t\"points\": -5\n}, \n{\n\t\"name\": \"Lying\",\n\t\"points\": -5\n}]"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /rewards/:id",
+					"request": {
+						"url": "{{apiURL}}/rewards/5",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /rewards/:id",
+					"request": {
+						"url": "{{apiURL}}/rewards/4",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "[{authToken}]",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Blah\",\n    \"completed\": false,\n    \"steve\": \"no\",\n    \"poop\": \"a lot\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Status",
+			"description": "",
+			"item": [
+				{
+					"name": "GET /status",
+					"request": {
+						"url": "{{apiURL}}/status",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET /status/:id",
+					"request": {
+						"url": "{{apiURL}}/status/6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST /status",
+					"request": {
+						"url": "{{apiURL}}/status",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\n    \"name\": \"In progress\"\n},\n{\n    \"name\": \"Completed\"\n},\n{\n    \"name\": \"Approved\"\n},\n{\n    \"name\": \"Denied\"\n}]"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /status/:id",
+					"request": {
+						"url": "{{apiURL}}/status/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /status/:id",
+					"request": {
+						"url": "{{apiURL}}/status/4",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "[{authToken}]",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Blah\",\n    \"completed\": false,\n    \"steve\": \"no\",\n    \"poop\": \"a lot\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"description": "",
+			"item": [
+				{
+					"name": "GET /tasks",
+					"request": {
+						"url": "{{apiURL}}/tasks",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET /tasks/:id",
+					"request": {
+						"url": "{{apiURL}}/tasks/6",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST /tasks",
+					"request": {
+						"url": "{{apiURL}}/tasks",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[{\t\n\t\"name\": \"Let the dog out/in\",\n\t\"points\": 5\n}, \n{\n\t\"name\": \"Put clothes in hamper\",\n\t\"points\": 5\n}, \n{\n\t\"name\": \"Put shoes away\",\n\t\"points\": 5\n}, \n{\n\t\"name\": \"Complete homework\",\n\t\"points\": 5\n}, \n{\n\t\"name\": \"Make lunch\",\n\t\"points\": 5\n}, \n{\n\t\"name\": \"Feed the dog\",\n\t\"points\": 8\n}, \n{\n\t\"name\": \"Clean dinner plate\",\n\t\"points\": 8\n}, \n{\n\t\"name\": \"Shower\",\n\t\"points\": 10\n}, \n{\n\t\"name\": \"Read extra\",\n\t\"points\": 10\n}, \n{\n\t\"name\": \"Get up with the alarm\",\n\t\"points\": 10\n}, \n{\n\t\"name\": \"Load/unload dishwasher\",\n\t\"points\": 15\n}, \n{\n\t\"name\": \"Put away your laundry\",\n\t\"points\": 20\n}, \n{\n\t\"name\": \"Clean room\",\n\t\"points\": 25\n}, \n{\n\t\"name\": \"Eat a full serving of vegetables\",\n\t\"points\": 30\n}, \n{\n\t\"name\": \"Clean other room in house\",\n\t\"points\": 50\n}]"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /tasks/:id",
+					"request": {
+						"url": "{{apiURL}}/tasks/1",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "{{authToken}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /tasks/:id",
+					"request": {
+						"url": "{{apiURL}}/tasks/4",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "[{authToken}]",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Blah\",\n    \"completed\": false,\n    \"steve\": \"no\",\n    \"poop\": \"a lot\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"description": "",
+			"item": [
+				{
+					"name": "POST /users",
+					"request": {
+						"url": "http://localhost:3000/users",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"qwerty@me.com\",\n    \"password\": \"qwerty123\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users/login",
+					"request": {
+						"url": "{{apiURL}}/users/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"qwerty@me.com\",\n    \"password\": \"qwerty123\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE  /users/login",
+					"request": {
+						"url": "{{apiURL}}/users/login",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Auth",
+								"value": "[{authToken}]",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
