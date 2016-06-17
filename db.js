@@ -16,6 +16,7 @@ var db = {};
 db.assigned = sql.import(__dirname + '/models/assigned.js');
 db.claimed = sql.import(__dirname + '/models/claimed.js');
 db.rewards = sql.import(__dirname + '/models/rewards.js');
+db.status = sql.import(__dirname + '/models/statuses.js');
 db.tasks = sql.import(__dirname + '/models/tasks.js');
 db.token = sql.import(__dirname + '/models/token.js');
 db.user = sql.import(__dirname + '/models/user.js');
@@ -23,5 +24,10 @@ db.user = sql.import(__dirname + '/models/user.js');
 db.sql = sql;
 db.Sequelize = Sequelize;
 
+db.assigned.belongsTo(db.user);
+db.user.hasMany(db.assigned);
+
+db.claimed.belongsTo(db.user);
+db.user.hasMany(db.claimed);
 
 module.exports = db;

@@ -1,6 +1,6 @@
 module.exports 	=	function(sqlize,DataTypes) {
 	var action 	=	sqlize.define('action', {
-		userID: {
+		userId: {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
@@ -12,10 +12,6 @@ module.exports 	=	function(sqlize,DataTypes) {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: 0
-		},
-		authUserID: {
-			type: DataTypes.INTEGER,
-			allowNull: true
 		}
 	}, {
 		hooks: {
