@@ -1,18 +1,22 @@
 module.exports 	=	function(sqlize,DataTypes) {
-	var action 	=	sqlize.define('action', {
+	var assigned =	sqlize.define('assigned', {
 		userId: {
 			type: DataTypes.INTEGER,
-			allowNull: false
+			allowNull: false,
+			references: { model: 'users', key: 'id' }
 		},
 		taskId: {
 			type: DataTypes.INTEGER,
-			allowNull: false
+			allowNull: false,
+			references: { model: 'tasks', key: 'id' }
 		},
 		statusId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			defaultValue: 1
+			defaultValue: 1,
+			references: { model: 'statuses', key: 'id' }
+
 		}
 	});
-	return action;
+	return assigned;
 };

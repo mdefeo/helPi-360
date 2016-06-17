@@ -741,7 +741,7 @@ app.delete('/notifications/:id', middleware.requireAuthentication, function (req
 
 
 db.sql
-    .sync({})
+    .sync({force:true})
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);
