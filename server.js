@@ -550,40 +550,103 @@ app.put('/assigned/:id', middleware.requireAuthentication, function (req, res) {
  */
 app.post('/claimed', middleware.requireAuthentication, function (req, res) {
     var body = _.pick(req.body, 'user', 'reward', 'status'),
-        attributes = {};
+        attributes = {},
+        query = req.query,
+        where = {};
 
-    if (req.user.get('type') !== 10 && body.hasOwnProperty('user') && body.hasOwnProperty('reward')) {
-        attributes.userId = body.user;
-        attributes.rewardId = body.reward;
-
-        if (body.hasOwnProperty('statusId')) {
-            attributes.statusId = body.status;
-        }
-
-        db.claimed
-            .create(attributes)
-            .then(function (claimed) {
-                res.status(200).json(claimed.toJSON());
-            })
-            .catch(function (e) {
-                res.status(500).json(e);
-            });
-    } else if (req.user.get('type') === 10 && body.hasOwnProperty('user') && body.hasOwnProperty('reward')) {
-        attributes.userId = body.user;
-        attributes.rewardId = body.reward;
-        attributes.statusId = 1;
-
-        db.claimed
-            .create(attributes)
-            .then(function (claimed) {
-                res.status(200).json(claimed.toJSON());
-            })
-            .catch(function (e) {
-                res.status(500).json(e);
-            });
-    } else {
-        res.status(401).send();
+    if (query.hasOwnProperty('user') && query.user.length > 0) {
+        where.id = query.user;
     }
+
+    db.user
+        .findAll({
+            attributes: ['id', 'email', 'type'],
+            where: where,
+            include: [
+                {
+                    model: db.assigned,
+                    include: [
+                        {
+                            model: db.tasks
+                        }
+                    ]
+                },
+                {
+                    model: db.claimed,
+                    include: [
+                        {
+                            model: db.rewards
+                        }
+                    ]
+                }]
+        })
+        .then(function (user) {
+            user.forEach(function (user) {
+                user.dataValues.balance = 0;
+
+                user.actions.forEach(function (action) {
+                    if (action.statusId === 3) {
+                        user.dataValues.balance += action.task.points;
+                    }
+                });
+
+                user.claims.forEach(function (claim) {
+                    if (claim.statusId === 3) {
+                        user.dataValues.balance -= claim.reward.points;
+                    }
+                });
+            });
+
+            return user;
+        })
+        .then(function (user) {
+            return db.rewards
+                .findOne({where: {id: body.reward}})
+                .then(function (reward) {
+                    if (parseInt(reward.points) < parseInt(user[0].dataValues.balance)) {
+                        return reward;
+                    } else {
+                        throw new Error({error: "Not enough points for this reward"});
+                    }
+                })
+        })
+        .then(function (reward) {
+            if (req.user.get('type') !== 10 && body.hasOwnProperty('user') && body.hasOwnProperty('reward')) {
+                attributes.userId = body.user;
+                attributes.rewardId = body.reward;
+
+                if (body.hasOwnProperty('statusId')) {
+                    attributes.statusId = body.status;
+                }
+
+                db.claimed
+                    .create(attributes)
+                    .then(function (claimed) {
+                        res.status(200).json(claimed.toJSON());
+                    })
+                    .catch(function (e) {
+                        res.status(500).json(e);
+                    });
+            } else if (req.user.get('type') === 10 && body.hasOwnProperty('user') && body.hasOwnProperty('reward')) {
+                attributes.userId = body.user;
+                attributes.rewardId = body.reward;
+                attributes.statusId = 1;
+
+                db.claimed
+                    .create(attributes)
+                    .then(function (claimed) {
+                        res.status(200).json(claimed.toJSON());
+                    })
+                    .catch(function (e) {
+                        res.status(500).json(e);
+                    });
+            } else {
+                res.status(401).send();
+            }
+        })
+        .catch(function (e) {
+            res.status(500).json(e);
+        });
 });
 
 app.get('/claimed', middleware.requireAuthentication, function (req, res) {
