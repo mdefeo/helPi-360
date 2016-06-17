@@ -326,8 +326,160 @@ app.put('/rewards/:id', middleware.requireAuthentication, function (req, res) {
  */
 
 
+
+/*
+ ASSIGNED
+ */
+app.post('/assigned', middleware.requireAuthentication, function (req, res) {
+    var body = _.pick(req.body, 'userId', 'taskId');
+
+    if (req.user.get('type') !== 10) {
+        db.assigned
+            .create(body)
+            .then(function (assigned) {
+                res.status(200).json(assigned.toJSON());
+            })
+            .catch(function (e) {
+                res.status(500).json(e);
+            });
+    } else {
+        res.status(401).send();
+    }
+});
+
+app.get('/assigned', middleware.requireAuthentication, function (req, res) {
+    var query = req.query,
+        where = {};
+
+    if (query.hasOwnProperty('user') && query.user.length > 0) {
+        where.userId = query.user;
+    }
+
+    db.assigned
+        .findAll({where: where})
+        .then(function (assigned) {
+            res.status(200).json(assigned);
+        })
+        .catch(function (e) {
+            res.status(500).json(e);
+        });
+});
+
+app.get('/assigned/:id', middleware.requireAuthentication, function (req, res) {
+    var assigned_id = parseInt(req.params.id, 10);
+
+    db.assigned
+        .findOne({
+            where: {id: assigned_id}
+        }).then(function (assigned) {
+            if (assigned) {
+                res.status(200).json(assigned.toJSON());
+            } else {
+                res.status(404).send();
+            }
+        })
+        .catch(function (e) {
+            res.status(500).send();
+        });
+});
+
+app.delete('/assigned/:id', middleware.requireAuthentication, function (req, res) {
+    var assigned_id = parseInt(req.params.id, 10);
+
+    if (req.user.get('type') !== 10) {
+        db.assigned
+            .destroy({
+                where: {id: assigned_id}
+            }).then(function (deleted) {
+            if (deleted === 0) {
+                res.status(404).json({"error": "No assigned found with that id."});
+            } else {
+                res.status(204).send();
+            }
+        }, function (e) {
+            res.status(500).send();
+        });
+    } else {
+        res.status(401).send();
+    }
+});
+
+app.put('/assigned/:id', middleware.requireAuthentication, function (req, res) {
+    var body = _.pick(req.body, 'user', 'status'),
+        assigned_id = parseInt(req.params.id, 10),
+        attributes = {};
+
+    if (req.user.get('type') !== 10) {
+        if (body.hasOwnProperty('user')) {
+            attributes.user = body.user;
+        }
+
+        if (body.hasOwnProperty('status')) {
+            attributes.status = body.status;
+        }
+
+        if (body.hasOwnProperty('authorize')) {
+            attributes.authUserID = req.user.get('id');
+        }
+
+        db.assigned
+            .findOne({
+                where: {id: assigned_id}
+            })
+            .then(function (assigned) {
+                if (assigned) {
+                    assigned
+                        .update(attributes)
+                        .then(function (reward) {
+                            res.json(assigned.toJSON());
+                        }, function (e) {
+                            res.status(400).json(e);
+                        });
+                } else {
+                    res.status(404).send();
+                }
+            })
+            .catch(function (e) {
+                res.status(500).send();
+            });
+    } else if (req.user.get('type') === 10) {
+        if (body.hasOwnProperty('status') && (body.status === 1 || body.status === 2)) {
+            attributes.status = body.status;
+        }
+
+        db.assigned
+            .findOne({
+                where: {id: assigned_id}
+            })
+            .then(function (assigned) {
+                if (assigned) {
+                    assigned
+                        .update(attributes)
+                        .then(function (assigned) {
+                            res.json(assigned.toJSON());
+                        }, function (e) {
+                            res.status(400).json(e);
+                        });
+                } else {
+                    res.status(404).send();
+                }
+            })
+            .catch(function (e) {
+                res.status(500).send();
+            });
+    } else {
+        res.status(401).send();
+    }
+});
+
+
+/*
+ END ASSIGNED
+ */
+
+
 db.sql
-    .sync({force: true})
+    .sync({})
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);
