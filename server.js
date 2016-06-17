@@ -29,6 +29,60 @@ app.post('/users', function (req, res) {
         });
 });
 
+app.get('/users/:id/history', middleware.requireAuthentication, function (req, res) {
+    var query = req.query,
+        where = {};
+
+    if (query.hasOwnProperty('user') && query.user.length > 0) {
+        where.id = query.user;
+    }
+
+    db.user
+        .findAll({
+            attributes: ['id', 'email', 'type'],
+            where: where,
+            include: [
+                {
+                    model: db.assigned,
+                    include: [
+                        {
+                            model: db.tasks
+                        }
+                    ]
+                },
+                {
+                    model: db.claimed,
+                    include: [
+                        {
+                            model: db.rewards
+                        }
+                    ]
+                }]
+        })
+        .then(function (user) {
+            user.forEach(function(user){
+                user.dataValues.balance = 0;
+
+                user.actions.forEach(function(action){
+                   if(action.statusId === 3){
+                       user.dataValues.balance += action.task.points;
+                   }
+                });
+
+                user.claims.forEach(function(claim){
+                   if(claim.statusId ===3){
+                       user.dataValues.balance -= claim.reward.points;
+                   }
+                });
+            });
+
+            res.status(200).json(user);
+        })
+        .catch(function (e) {
+            res.status(500).json(e);
+        });
+});
+
 app.post('/users/login', function (req, res) {
     var body = _.pick(req.body, 'email', 'password'),
         user_instance;
@@ -359,6 +413,14 @@ app.get('/assigned', middleware.requireAuthentication, function (req, res) {
         where.userId = query.user;
     }
 
+    if (query.hasOwnProperty('task') && query.task.length > 0) {
+        where.taskId = query.task;
+    }
+
+    if (query.hasOwnProperty('status') && query.status.length > 0) {
+        where.statusId = query.status;
+    }
+
     db.assigned
         .findAll({where: where})
         .then(function (assigned) {
@@ -541,7 +603,12 @@ app.get('/claimed', middleware.requireAuthentication, function (req, res) {
     }
 
     db.claimed
-        .findAll({where: where})
+        .findAll({
+            where: where,
+            include: [{
+                model: db.rewards
+            }]
+        })
         .then(function (claimed) {
             res.status(200).json(claimed);
         })
@@ -687,7 +754,7 @@ app.post('/notifications', middleware.requireAuthentication, function (req, res)
 app.get('/notifications', middleware.requireAuthentication, function (req, res) {
 
     db.notification
-        .findAll({where: { userId: req.user.get('userId') }})
+        .findAll({where: {userId: req.user.get('userId')}})
         .then(function (notification) {
             res.status(200).json(notification);
         })
@@ -701,7 +768,7 @@ app.get('/notification/:id', middleware.requireAuthentication, function (req, re
 
     db.notification
         .findOne({
-            where: {id: notificationId, userId: req.user.get('userId') }
+            where: {id: notificationId, userId: req.user.get('userId')}
         }).then(function (notification) {
             if (notification) {
                 res.status(200).json(notification.toJSON());
@@ -720,7 +787,7 @@ app.delete('/notifications/:id', middleware.requireAuthentication, function (req
     if (req.user.get('type') !== 10) {
         db.notification
             .destroy({
-                where: {id: notificationId, userId: req.user.get('userId') }
+                where: {id: notificationId, userId: req.user.get('userId')}
             }).then(function (deleted) {
             if (deleted === 0) {
                 res.status(404).json({"error": "No notification found with that id."});
@@ -741,7 +808,7 @@ app.delete('/notifications/:id', middleware.requireAuthentication, function (req
 
 
 db.sql
-    .sync({})
+    .sync()
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);

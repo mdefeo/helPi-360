@@ -32,6 +32,12 @@ db.user.hasMany(db.assigned);
 db.claimed.belongsTo(db.user);
 db.user.hasMany(db.claimed);
 
+db.assigned.belongsTo(db.tasks);
+db.tasks.hasMany(db.assigned);
+
+db.claimed.belongsTo(db.rewards);
+db.rewards.hasMany(db.claimed);
+
 db.notification.belongsTo(db.user);
 db.user.hasMany(db.notification);
 
