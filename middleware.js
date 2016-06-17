@@ -1,12 +1,11 @@
 var cryptojs = require('crypto-js'),
-    date_format = require('dateformat'),
-    now = new Date();
+    date_format = require('dateformat');
 
 module.exports = function (db) {
     return {
         requireAuthentication: function (req, res, next) {
             var token = req.get('Auth') || '',
-                test = cryptojs.MD5(token).toString();
+                now = new Date();
 
             db.token
                 .findOne({
@@ -15,6 +14,7 @@ module.exports = function (db) {
                     }
                 })
                 .then(function (token_instance) {
+                    var test = cryptojs.MD5(token).toString();
                     if (!token_instance) {
                         throw new Error();
                     }
@@ -28,7 +28,6 @@ module.exports = function (db) {
                             });
                     } else {
                         // Extend session expiration by 30 minutes
-                        var expiration_date = new Date(token_instance.get('expiration'));
                         expiration_date = date_format(now.setMinutes(now.getMinutes() + 30), 'isoDateTime');
 
                         req.token = token_instance;

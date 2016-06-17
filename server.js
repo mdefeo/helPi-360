@@ -331,11 +331,15 @@ app.put('/rewards/:id', middleware.requireAuthentication, function (req, res) {
  ASSIGNED
  */
 app.post('/assigned', middleware.requireAuthentication, function (req, res) {
-    var body = _.pick(req.body, 'userId', 'taskId');
+    var body = _.pick(req.body, 'user', 'task'),
+        attributes = {
+            userId: body.user,
+            taskId: body.task
+        };
 
     if (req.user.get('type') !== 10) {
         db.assigned
-            .create(body)
+            .create(attributes)
             .then(function (assigned) {
                 res.status(200).json(assigned.toJSON());
             })
@@ -411,11 +415,11 @@ app.put('/assigned/:id', middleware.requireAuthentication, function (req, res) {
 
     if (req.user.get('type') !== 10) {
         if (body.hasOwnProperty('user')) {
-            attributes.user = body.user;
+            attributes.userId = body.user;
         }
 
         if (body.hasOwnProperty('status')) {
-            attributes.status = body.status;
+            attributes.statusId = body.status;
         }
 
         if (body.hasOwnProperty('authorize')) {
@@ -430,7 +434,7 @@ app.put('/assigned/:id', middleware.requireAuthentication, function (req, res) {
                 if (assigned) {
                     assigned
                         .update(attributes)
-                        .then(function (reward) {
+                        .then(function (assigned) {
                             res.json(assigned.toJSON());
                         }, function (e) {
                             res.status(400).json(e);
@@ -476,6 +480,188 @@ app.put('/assigned/:id', middleware.requireAuthentication, function (req, res) {
 /*
  END ASSIGNED
  */
+
+
+
+/*
+ CLAIMED
+ */
+app.post('/claimed', middleware.requireAuthentication, function (req, res) {
+    var body = _.pick(req.body, 'user', 'reward', 'status'),
+        attributes = {};
+
+    if (req.user.get('type') !== 10 && body.hasOwnProperty('user') && body.hasOwnProperty('reward')) {
+        attributes.userId = body.user;
+        attributes.rewardId = body.reward;
+
+        if (body.hasOwnProperty('statusId')) {
+            attributes.statusId = body.status;
+        }
+
+        db.claimed
+            .create(attributes)
+            .then(function (claimed) {
+                res.status(200).json(claimed.toJSON());
+            })
+            .catch(function (e) {
+                res.status(500).json(e);
+            });
+    } else if (req.user.get('type') === 10 && body.hasOwnProperty('user') && body.hasOwnProperty('reward')) {
+        attributes.userId = body.user;
+        attributes.rewardId = body.reward;
+        attributes.statusId = 1;
+
+        db.claimed
+            .create(attributes)
+            .then(function (claimed) {
+                res.status(200).json(claimed.toJSON());
+            })
+            .catch(function (e) {
+                res.status(500).json(e);
+            });
+    } else {
+        res.status(401).send();
+    }
+});
+
+app.get('/claimed', middleware.requireAuthentication, function (req, res) {
+    var query = req.query,
+        where = {};
+
+    if (query.hasOwnProperty('user') && query.user.length > 0) {
+        where.userId = query.user;
+    }
+
+    if (query.hasOwnProperty('reward') && query.reward.length > 0) {
+        where.rewardId = query.reward;
+    }
+
+    if (query.hasOwnProperty('status') && query.status.length > 0) {
+        where.statusId = query.status;
+    }
+
+    db.claimed
+        .findAll({where: where})
+        .then(function (claimed) {
+            res.status(200).json(claimed);
+        })
+        .catch(function (e) {
+            res.status(500).json(e);
+        });
+});
+
+app.get('/claimed/:id', middleware.requireAuthentication, function (req, res) {
+    var claimed_id = parseInt(req.params.id, 10);
+
+    db.claimed
+        .findOne({
+            where: {id: claimed_id}
+        }).then(function (claimed) {
+            if (claimed) {
+                res.status(200).json(claimed.toJSON());
+            } else {
+                res.status(404).send();
+            }
+        })
+        .catch(function (e) {
+            res.status(500).send();
+        });
+});
+
+app.delete('/claimed/:id', middleware.requireAuthentication, function (req, res) {
+    var claimed_id = parseInt(req.params.id, 10);
+
+    if (req.user.get('type') !== 10) {
+        db.claimed
+            .destroy({
+                where: {id: claimed_id}
+            }).then(function (deleted) {
+            if (deleted === 0) {
+                res.status(404).json({"error": "No claimed found with that id."});
+            } else {
+                res.status(204).send();
+            }
+        }, function (e) {
+            res.status(500).send();
+        });
+    } else if (req.user.get('type') === 10) {
+        db.claimed
+            .findOne({
+                where: {id: claimed_id}
+            })
+            .then(function (claimed) {
+                if (claimed.statusId === 1) {
+                    claimed
+                        .destroy()
+                        .then(function (deleted) {
+                            if (deleted === 0) {
+                                res.status(404).json({"error": "No claimed found with that id."});
+                            } else {
+                                res.status(204).send();
+                            }
+                        }, function (e) {
+                            res.status(500).send();
+                        });
+                } else {
+                    res.status(404).send();
+                }
+            })
+            .catch(function (e) {
+                res.status(500).send();
+            });
+    } else {
+        res.status(401).send();
+    }
+});
+
+app.put('/claimed/:id', middleware.requireAuthentication, function (req, res) {
+    var body = _.pick(req.body, 'user', 'reward', 'status'),
+        claimed_id = parseInt(req.params.id, 10),
+        attributes = {};
+
+    if (req.user.get('type') !== 10) {
+        if (body.hasOwnProperty('user')) {
+            attributes.userId = body.user;
+        }
+
+        if (body.hasOwnProperty('reward')) {
+            attributes.rewardId = body.reward;
+        }
+
+        if (body.hasOwnProperty('status')) {
+            attributes.statusId = body.status;
+        }
+
+        db.claimed
+            .findOne({
+                where: {id: claimed_id}
+            })
+            .then(function (claimed) {
+                if (claimed) {
+                    claimed
+                        .update(attributes)
+                        .then(function (claimed) {
+                            res.json(claimed.toJSON());
+                        }, function (e) {
+                            res.status(400).json(e);
+                        });
+                } else {
+                    res.status(404).send();
+                }
+            })
+            .catch(function (e) {
+                res.status(500).send();
+            });
+    } else {
+        res.status(401).send();
+    }
+});
+
+
+/*
+ END CLAIMED
+ */
+
 
 
 /*
@@ -550,12 +736,12 @@ app.delete('/notifications/:id', middleware.requireAuthentication, function (req
 });
 
 /*
- END NOTIFICATIONS  
+ END NOTIFICATIONS
  */
 
 
 db.sql
-    .sync({force: true})
+    .sync({})
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);
