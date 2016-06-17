@@ -94,7 +94,7 @@ module.exports = function (sql, DataTypes) {
                         .catch(function (e) {
                             reject();
                         });
-                })
+                });
             },
             findByToken: function (token) {
                 return new Promise(function (resolve, reject) {

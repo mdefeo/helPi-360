@@ -111,12 +111,89 @@ app.get('/tasks', middleware.requireAuthentication, function (req, res) {
 
     db.tasks
         .findAll({where: where})
-        .then(function (todos) {
-            res.status(200).json(todos);
+        .then(function (tasks) {
+            res.status(200).json(tasks);
         })
         .catch(function (e) {
             res.status(500).json(e);
         });
+});
+
+
+app.get('/tasks/:id', middleware.requireAuthentication, function(req, res) {
+    var taskID      =   parseInt(req.params.id,10);
+    task            =   
+    
+    db.tasks.findOne({where: 
+        { id: taskID }
+    }).then(function(task) {
+        if(task) {
+            res.json(task.toJSON());
+        } else {
+            res.status(404).send();
+        }
+    }, function(e) {
+        res.status(500).send();
+    });
+});
+
+app.delete('/tasks/:id', middleware.requireAuthentication, function(req, res) {
+    var taskID      =   parseInt(req.params.id,10);
+
+    if(req.user.get('type') !== 10) {
+        db.tasks
+            .destroy({where: 
+            { id: taskID }
+        }).then(function(deleted) {
+            if(deleted === 0) {
+                res.status(404).json({"error":"No task found with that id."});
+            } else {
+                res.status(204).send();
+            }
+        }, function(e) {
+            res.status(500).send();
+        });
+    } else {
+        res.status(401).send();
+    }
+});
+
+app.put('/tasks/:id', middleware.requireAuthentication, function(req, res) {
+    var body        =   _.pick(req.body, 'name', 'points', 'description'),
+        taskID    =   parseInt(req.params.id,10),
+        attributes  =   {};
+
+    if(req.user.get('type') !== 10) {
+        if(body.hasOwnProperty('name')) {
+            attributes.name         =   body.name.trim();
+        }
+
+        if(body.hasOwnProperty('points')) {
+            attributes.points       =   body.points;
+        }
+
+        if(body.hasOwnProperty('description')) {
+            attributes.description  =   body.description.trim();
+        }
+
+        db.tasks.findOne({where: 
+                                { id: taskID }
+        }).then(function(task) {
+            if(task) {
+                task.update(attributes).then(function(task) {
+                    res.json(task.toJSON());
+                }, function(e) {
+                    res.status(400).json(e);
+                });
+            } else {
+                res.status(404).send();
+            }
+        }, function() {
+            res.status(500).send();
+        });
+    } else {
+        res.status(401).send();
+    }
 });
 /*
  END TASKS
@@ -160,8 +237,8 @@ app.get('/rewards', middleware.requireAuthentication, function (req, res) {
 
     db.rewards
         .findAll({where: where})
-        .then(function (todos) {
-            res.status(200).json(todos);
+        .then(function (rewards) {
+            res.status(200).json(rewards);
         })
         .catch(function (e) {
             res.status(500).json(e);
@@ -185,16 +262,16 @@ app.get('/rewards/:id', middleware.requireAuthentication, function(req, res) {
     });
 });
 
-app.delete('/reward/:id', middleware.requireAuthentication, function(req, res) {
+app.delete('/rewards/:id', middleware.requireAuthentication, function(req, res) {
     var rewardID      =   parseInt(req.params.id,10);
 
     if(req.user.get('type') !== 10) {
         db.rewards
             .destroy({where: 
-            { id: toDoID, userId: req.user.get('id') }
+            { id: rewardID, userId: req.user.get('id') }
         }).then(function(deleted) {
             if(deleted === 0) {
-                res.status(404).json({"error":"No todo found with that id."});
+                res.status(404).json({"error":"No reward found with that id."});
             } else {
                 res.status(204).send();
             }
@@ -249,7 +326,7 @@ app.put('/rewards/:id', middleware.requireAuthentication, function(req, res) {
  */
 
 db.sql
-    .sync({})
+    .sync({force:true})
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);
