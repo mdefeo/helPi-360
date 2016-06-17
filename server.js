@@ -60,19 +60,19 @@ app.get('/users/:id/history', middleware.requireAuthentication, function (req, r
                 }]
         })
         .then(function (user) {
-            user.forEach(function(user){
+            user.forEach(function (user) {
                 user.dataValues.balance = 0;
 
-                user.actions.forEach(function(action){
-                   if(action.statusId === 3){
-                       user.dataValues.balance += action.task.points;
-                   }
+                user.actions.forEach(function (action) {
+                    if (action.statusId === 3) {
+                        user.dataValues.balance += action.task.points;
+                    }
                 });
 
-                user.claims.forEach(function(claim){
-                   if(claim.statusId ===3){
-                       user.dataValues.balance -= claim.reward.points;
-                   }
+                user.claims.forEach(function (claim) {
+                    if (claim.statusId === 3) {
+                        user.dataValues.balance -= claim.reward.points;
+                    }
                 });
             });
 
@@ -808,7 +808,7 @@ app.delete('/notifications/:id', middleware.requireAuthentication, function (req
 
 
 db.sql
-    .sync()
+    .sync({})
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);

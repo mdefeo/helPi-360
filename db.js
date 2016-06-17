@@ -11,6 +11,8 @@ if (env === 'production') {
         'storage': __dirname + '/data/helpi.sqlite'
     });
 }
+
+/* Import models, assign to db object */
 var db = {};
 
 db.assigned 			=	sql.import(__dirname + '/models/assigned.js');
@@ -26,8 +28,16 @@ db.user 				= 	sql.import(__dirname + '/models/user.js');
 db.sql = sql;
 db.Sequelize = Sequelize;
 
+/* Foreign Keys */
+
 db.assigned.belongsTo(db.user);
 db.user.hasMany(db.assigned);
+
+db.assigned.belongsTo(db.tasks);
+db.tasks.hasMany(db.assigned);
+
+db.assigned.belongsTo(db.status);
+db.status.hasMany(db.assigned);
 
 db.claimed.belongsTo(db.user);
 db.user.hasMany(db.claimed);
@@ -42,6 +52,6 @@ db.notification.belongsTo(db.user);
 db.user.hasMany(db.notification);
 
 db.notification.belongsTo(db.notificationType);
-db.notificationType.hasMany(db.notification, {foreignKey : 'notificationId'});
+db.notificationType.hasMany(db.notification);
 
 module.exports = db;
