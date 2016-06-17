@@ -4,11 +4,11 @@ module.exports 	=	function(sqlize,DataTypes) {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-		rewardID: {
+		rewardId: {
 			type: DataTypes.INTEGER,
 			allowNull: false
 		},
-		status: {
+		statusId: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: 0
