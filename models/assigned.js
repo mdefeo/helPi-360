@@ -9,7 +9,7 @@ module.exports 	=	function(sqlize,DataTypes) {
 			allowNull: false
 		},
 		statusId: {
-			type: DataTypes.BOOLEAN,
+			type: DataTypes.INTEGER,
 			allowNull: false,
 			defaultValue: 0
 		}

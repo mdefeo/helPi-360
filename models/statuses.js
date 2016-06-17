@@ -3,7 +3,7 @@ module.exports 	=	function(sqlize,DataTypes) {
 		status: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			defaultValue: 0
+			defaultValue: "In progress"
 		}
 	}, {
 		hooks: {
@@ -13,5 +13,5 @@ module.exports 	=	function(sqlize,DataTypes) {
 		instanceMethods: {
 		}
 	});
-	return claim;
+	return status;
 };
