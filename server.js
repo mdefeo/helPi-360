@@ -478,8 +478,84 @@ app.put('/assigned/:id', middleware.requireAuthentication, function (req, res) {
  */
 
 
+/*
+ NOTIFICATIONS
+ */
+app.post('/notifications', middleware.requireAuthentication, function (req, res) {
+    var body = _.pick(req.body, 'userId', 'taskId');
+
+    if (req.user.get('type') !== 10) {
+        db.notification
+            .create(body)
+            .then(function (notification) {
+                res.status(200).json(notification.toJSON());
+            })
+            .catch(function (e) {
+                res.status(500).json(e);
+            });
+    } else {
+        res.status(401).send();
+    }
+});
+
+app.get('/notifications', middleware.requireAuthentication, function (req, res) {
+
+    db.notification
+        .findAll({where: { userId: req.user.get('userId') }})
+        .then(function (notification) {
+            res.status(200).json(notification);
+        })
+        .catch(function (e) {
+            res.status(500).json(e);
+        });
+});
+
+app.get('/notification/:id', middleware.requireAuthentication, function (req, res) {
+    var notificationId = parseInt(req.params.id, 10);
+
+    db.notification
+        .findOne({
+            where: {id: notificationId, userId: req.user.get('userId') }
+        }).then(function (notification) {
+            if (notification) {
+                res.status(200).json(notification.toJSON());
+            } else {
+                res.status(404).send();
+            }
+        })
+        .catch(function (e) {
+            res.status(500).send();
+        });
+});
+
+app.delete('/notifications/:id', middleware.requireAuthentication, function (req, res) {
+    var notificationId = parseInt(req.params.id, 10);
+
+    if (req.user.get('type') !== 10) {
+        db.notification
+            .destroy({
+                where: {id: notificationId, userId: req.user.get('userId') }
+            }).then(function (deleted) {
+            if (deleted === 0) {
+                res.status(404).json({"error": "No notification found with that id."});
+            } else {
+                res.status(204).send();
+            }
+        }, function (e) {
+            res.status(500).send();
+        });
+    } else {
+        res.status(401).send();
+    }
+});
+
+/*
+ END NOTIFICATIONS  
+ */
+
+
 db.sql
-    .sync({})
+    .sync({force: true})
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);
