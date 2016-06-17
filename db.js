@@ -13,8 +13,8 @@ if (env === 'production') {
 }
 var db = {};
 
-db.actions = sql.import(__dirname + '/models/actions.js');
-db.claims = sql.import(__dirname + '/models/claims.js');
+db.assigned = sql.import(__dirname + '/models/assigned.js');
+db.claimed = sql.import(__dirname + '/models/claimed.js');
 db.rewards = sql.import(__dirname + '/models/rewards.js');
 db.tasks = sql.import(__dirname + '/models/tasks.js');
 db.token = sql.import(__dirname + '/models/token.js');

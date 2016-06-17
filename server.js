@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
 });
 
 /*
-    USERS
+ USERS
  */
 app.post('/users', function (req, res) {
     var body = _.pick(req.body, 'email', 'password', 'type');
@@ -74,12 +74,12 @@ app.delete('/users/login', middleware.requireAuthentication, function (req, res)
 
 
 /*
-    TASKS
+ TASKS
  */
 app.post('/tasks', middleware.requireAuthentication, function (req, res) {
     var body = _.pick(req.body, 'name', 'points', 'description');
 
-    if(req.user.get('type') !== 10) {
+    if (req.user.get('type') !== 10) {
         db.tasks
             .create(body)
             .then(function (task) {
@@ -120,37 +120,37 @@ app.get('/tasks', middleware.requireAuthentication, function (req, res) {
 });
 
 
-app.get('/tasks/:id', middleware.requireAuthentication, function(req, res) {
-    var taskID      =   parseInt(req.params.id,10);
-    task            =   
-    
-    db.tasks.findOne({where: 
-        { id: taskID }
-    }).then(function(task) {
-        if(task) {
-            res.json(task.toJSON());
-        } else {
-            res.status(404).send();
-        }
-    }, function(e) {
-        res.status(500).send();
-    });
+app.get('/tasks/:id', middleware.requireAuthentication, function (req, res) {
+    var taskID = parseInt(req.params.id, 10);
+    task =
+
+        db.tasks.findOne({
+            where: {id: taskID}
+        }).then(function (task) {
+            if (task) {
+                res.json(task.toJSON());
+            } else {
+                res.status(404).send();
+            }
+        }, function (e) {
+            res.status(500).send();
+        });
 });
 
-app.delete('/tasks/:id', middleware.requireAuthentication, function(req, res) {
-    var taskID      =   parseInt(req.params.id,10);
+app.delete('/tasks/:id', middleware.requireAuthentication, function (req, res) {
+    var taskID = parseInt(req.params.id, 10);
 
-    if(req.user.get('type') !== 10) {
+    if (req.user.get('type') !== 10) {
         db.tasks
-            .destroy({where: 
-            { id: taskID }
-        }).then(function(deleted) {
-            if(deleted === 0) {
-                res.status(404).json({"error":"No task found with that id."});
+            .destroy({
+                where: {id: taskID}
+            }).then(function (deleted) {
+            if (deleted === 0) {
+                res.status(404).json({"error": "No task found with that id."});
             } else {
                 res.status(204).send();
             }
-        }, function(e) {
+        }, function (e) {
             res.status(500).send();
         });
     } else {
@@ -158,37 +158,37 @@ app.delete('/tasks/:id', middleware.requireAuthentication, function(req, res) {
     }
 });
 
-app.put('/tasks/:id', middleware.requireAuthentication, function(req, res) {
-    var body        =   _.pick(req.body, 'name', 'points', 'description'),
-        taskID    =   parseInt(req.params.id,10),
-        attributes  =   {};
+app.put('/tasks/:id', middleware.requireAuthentication, function (req, res) {
+    var body = _.pick(req.body, 'name', 'points', 'description'),
+        taskID = parseInt(req.params.id, 10),
+        attributes = {};
 
-    if(req.user.get('type') !== 10) {
-        if(body.hasOwnProperty('name')) {
-            attributes.name         =   body.name.trim();
+    if (req.user.get('type') !== 10) {
+        if (body.hasOwnProperty('name')) {
+            attributes.name = body.name.trim();
         }
 
-        if(body.hasOwnProperty('points')) {
-            attributes.points       =   body.points;
+        if (body.hasOwnProperty('points')) {
+            attributes.points = body.points;
         }
 
-        if(body.hasOwnProperty('description')) {
-            attributes.description  =   body.description.trim();
+        if (body.hasOwnProperty('description')) {
+            attributes.description = body.description.trim();
         }
 
-        db.tasks.findOne({where: 
-                                { id: taskID }
-        }).then(function(task) {
-            if(task) {
-                task.update(attributes).then(function(task) {
+        db.tasks.findOne({
+            where: {id: taskID}
+        }).then(function (task) {
+            if (task) {
+                task.update(attributes).then(function (task) {
                     res.json(task.toJSON());
-                }, function(e) {
+                }, function (e) {
                     res.status(400).json(e);
                 });
             } else {
                 res.status(404).send();
             }
-        }, function() {
+        }, function () {
             res.status(500).send();
         });
     } else {
@@ -200,12 +200,12 @@ app.put('/tasks/:id', middleware.requireAuthentication, function(req, res) {
  */
 
 /*
-    REWARDS
+ REWARDS
  */
 app.post('/rewards', middleware.requireAuthentication, function (req, res) {
     var body = _.pick(req.body, 'name', 'points', 'description');
 
-    if(req.user.get('type') !== 10) {
+    if (req.user.get('type') !== 10) {
         db.rewards
             .create(body)
             .then(function (reward) {
@@ -245,37 +245,37 @@ app.get('/rewards', middleware.requireAuthentication, function (req, res) {
         });
 });
 
-app.get('/rewards/:id', middleware.requireAuthentication, function(req, res) {
-    var rewardID    =   parseInt(req.params.id,10);
-    reward          =   
-    
-    db.rewards.findOne({where: 
-        { id: rewardID }
-    }).then(function(reward) {
-        if(reward) {
-            res.json(reward.toJSON());
-        } else {
-            res.status(404).send();
-        }
-    }, function(e) {
-        res.status(500).send();
-    });
+app.get('/rewards/:id', middleware.requireAuthentication, function (req, res) {
+    var rewardID = parseInt(req.params.id, 10);
+    reward =
+
+        db.rewards.findOne({
+            where: {id: rewardID}
+        }).then(function (reward) {
+            if (reward) {
+                res.json(reward.toJSON());
+            } else {
+                res.status(404).send();
+            }
+        }, function (e) {
+            res.status(500).send();
+        });
 });
 
-app.delete('/rewards/:id', middleware.requireAuthentication, function(req, res) {
-    var rewardID      =   parseInt(req.params.id,10);
+app.delete('/rewards/:id', middleware.requireAuthentication, function (req, res) {
+    var rewardID = parseInt(req.params.id, 10);
 
-    if(req.user.get('type') !== 10) {
+    if (req.user.get('type') !== 10) {
         db.rewards
-            .destroy({where: 
-            { id: rewardID, userId: req.user.get('id') }
-        }).then(function(deleted) {
-            if(deleted === 0) {
-                res.status(404).json({"error":"No reward found with that id."});
+            .destroy({
+                where: {id: rewardID, userId: req.user.get('id')}
+            }).then(function (deleted) {
+            if (deleted === 0) {
+                res.status(404).json({"error": "No reward found with that id."});
             } else {
                 res.status(204).send();
             }
-        }, function(e) {
+        }, function (e) {
             res.status(500).send();
         });
     } else {
@@ -283,37 +283,37 @@ app.delete('/rewards/:id', middleware.requireAuthentication, function(req, res) 
     }
 });
 
-app.put('/rewards/:id', middleware.requireAuthentication, function(req, res) {
-    var body        =   _.pick(req.body, 'name', 'points', 'description'),
-        rewardID    =   parseInt(req.params.id,10),
-        attributes  =   {};
+app.put('/rewards/:id', middleware.requireAuthentication, function (req, res) {
+    var body = _.pick(req.body, 'name', 'points', 'description'),
+        rewardID = parseInt(req.params.id, 10),
+        attributes = {};
 
-    if(req.user.get('type') !== 10) {
-        if(body.hasOwnProperty('name')) {
-            attributes.name         =   body.name.trim();
+    if (req.user.get('type') !== 10) {
+        if (body.hasOwnProperty('name')) {
+            attributes.name = body.name.trim();
         }
 
-        if(body.hasOwnProperty('points')) {
-            attributes.points       =   body.points;
+        if (body.hasOwnProperty('points')) {
+            attributes.points = body.points;
         }
 
-        if(body.hasOwnProperty('description')) {
-            attributes.description  =   body.description.trim();
+        if (body.hasOwnProperty('description')) {
+            attributes.description = body.description.trim();
         }
 
-        db.rewards.findOne({where: 
-                                { id: rewardID }
-        }).then(function(reward) {
-            if(reward) {
-                reward.update(attributes).then(function(reward) {
+        db.rewards.findOne({
+            where: {id: rewardID}
+        }).then(function (reward) {
+            if (reward) {
+                reward.update(attributes).then(function (reward) {
                     res.json(reward.toJSON());
-                }, function(e) {
+                }, function (e) {
                     res.status(400).json(e);
                 });
             } else {
                 res.status(404).send();
             }
-        }, function() {
+        }, function () {
             res.status(500).send();
         });
     } else {
@@ -325,8 +325,9 @@ app.put('/rewards/:id', middleware.requireAuthentication, function(req, res) {
  END REWARDS
  */
 
+
 db.sql
-    .sync({force:true})
+    .sync({force: true})
     .then(function () {
             app.listen(PORT, function () {
                 console.log('Express server listening on port ' + PORT);
