@@ -14,11 +14,6 @@ module.exports 	=	function(sqlize,DataTypes) {
 		description: {
 			type: DataTypes.STRING,
 			allowNull: true
-		},
-		active: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			defaultValue: 1
 		}
 	}, {
 		hooks: {

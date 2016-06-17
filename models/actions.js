@@ -16,11 +16,6 @@ module.exports 	=	function(sqlize,DataTypes) {
 		authUserID: {
 			type: DataTypes.INTEGER,
 			allowNull: true
-		},
-		active: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			defaultValue: 1
 		}
 	}, {
 		hooks: {
